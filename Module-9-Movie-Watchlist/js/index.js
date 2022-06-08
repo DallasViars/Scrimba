@@ -75,7 +75,7 @@ function renderHtml(data, action, error) {
     addOrRemove = "removeFromWatchList";
     addOrRemoveSign = "&minus;";
   }
-  if (currentWatchlist[data.imdbID] != undefined) {
+  if (currentWatchlist[data.imdbID]) {
     addOrRemove = "removeFromWatchList";
     addOrRemoveSign = "&minus;";
     alreadyOnList = "toggle-remove";
