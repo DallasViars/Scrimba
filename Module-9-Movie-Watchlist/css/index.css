@@ -1,0 +1,250 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+section {
+  box-sizing: border-box;
+}
+/******************
+ *    Variable    *
+ *   Definitions  *
+ ******************/
+:root {
+  --txt-light-mode: #000;
+  --bg-light-mode: #fff;
+  --txt-dark-mode: #fff;
+  --bg-dark-mode: #000;
+  --movie-synopsis: #6B7280;
+}
+
+/* Resetting margin and padding to 0 */
+html,
+body,
+section,
+p,
+h1,
+h2,
+h3 {
+  margin: 0;
+  padding: 0;
+}
+
+/******************
+ *   Typography   *
+ ******************/
+
+html,
+body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+h1.page-title,
+a.my-watchlist {
+  color: #fff;
+}
+
+h1.page-title {
+  font-weight: 800;
+  font-size: 2rem;
+}
+
+input.movie-search {
+  color: #6B7280;
+}
+
+input.movie-search,
+button.movie-search-btn {
+  font-size: 0.875rem;
+}
+
+h2.movie-title,
+input.movie-search,
+button.movie-search-btn {
+  font-weight: 500;
+}
+
+h2.movie-title {
+  font-size: 1.2rem;
+}
+
+a.my-watchlist {
+  font-weight: 700;
+}
+
+p.movie-rating,
+p.movie-runtime,
+p.movie-genres,
+a.movie-add-to-watchlist {
+  font-size: 0.75rem;
+}
+
+button.movie-watchlist-btn {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.movie-info > p {
+  line-height: 1.5;
+}
+
+p.movie-plot {
+  font-size: 0.875rem;
+  color: var(--movie-synopsis);
+}
+
+span.star {
+  color: gold;
+  font-size: 1em;
+}
+
+/******************
+ *     Styling    *
+ ******************/
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  padding-bottom: 3em;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3em 1em;
+  background-image: url("https://assets.codepen.io/5515635/movie-watchlist-andre-tan-sm_1.jpg");
+  background-size: cover;
+  background-position: 50% 15%;
+  background-color: #4F4A4A;
+  background-blend-mode: multiply;
+  height: 30vh;
+}
+
+div.movie-search-div {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 1em;
+}
+
+input[type=text].movie-search,
+button.movie-search-btn {
+  border: 1px solid #E7E4E4;
+}
+
+input[type=text].movie-search {
+  width: 75%;
+  max-width: 600px;
+  font-size: 16px;
+  border-radius: 5px 0 0 5px;
+  padding: 0.75em;
+  margin: 0 0 0 0.25em;
+  transform: translate(3px, -50%);
+}
+
+button.movie-search-btn {
+  padding: 0.98em 0.5em 0.98em 0.5em;
+  margin: 0; 
+  width: 20%;
+  max-width: 150px;
+  border-radius: 0 5px 5px 0;
+  background: #fff;
+  transform: translate(-3px, -50%);
+}
+
+section.movie-data {
+  display: flex;
+  padding: 1em 1em;
+  border: 1px solid white;
+}
+
+img.movie-img {
+  width: 100px;
+  height: 150px;
+  order: -1;
+  margin-right: 0.5em;
+}
+
+div.movie-header {
+  display: flex;
+  align-items: center;
+}
+
+h2.movie-title {
+  padding-right: 0.25em;
+}
+
+div.movie-info {
+  padding: 0.75em 0;
+}
+
+a:hover,
+a:focus {
+  color: red;
+}
+
+button:hover,
+button:focus {
+  background: red;
+  color: white;
+  font-weight: 600;
+}
+button:active {
+  background: green;
+}
+
+.toggle-add {
+  background: none;
+/*   border: none; */
+}
+
+.toggle-remove {
+  background: #E6F1DA;
+  border: 1px solid #808080;
+}
+
+div.error-msg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+input { touch-action: none; }
+
+@media screen and (min-width: 600px) {
+  header {
+    padding: 3em;
+    background-image: url("https://assets.codepen.io/5515635/movie-watchlist-andre-tan-md_1.jpg");
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  div.movie-list {
+    align-items: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .movie-header,
+  .movie-info {
+    display: flex;
+  }
+  .movie-title,
+  .movie-runtime,
+  .movie-genres {
+    margin-right: 1.5em;
+  }
+} 
