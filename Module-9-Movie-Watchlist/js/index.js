@@ -2,6 +2,7 @@
 
 let html = "";
 let watchList = {};
+let currentWatchlist = JSON.parse(localStorage.getItem("watchList"));
 const movieSearchBtn = document.getElementById("movie-search-btn");
 const movieSearchInput = document.getElementById("movie-search-input");
 const mainEl = document.getElementById("main");
@@ -20,12 +21,10 @@ movieSearchInput.addEventListener("keypress", () => {
 async function getMovies(searchType = "s", error = "") {
   html = "";
   let movieSearch = movieSearchInput.value;
-  // console.log(searchType, error)
   const searchResponse = await fetch(
     `https://www.omdbapi.com/?${searchType}=${movieSearch}&type=movie&apikey=1db25ac7`
   );
   const searchData = await searchResponse.json();
-  // console.log(searchData)
   if (searchData.Error) {
     checkErrors(searchData.Error);
     return;
@@ -65,7 +64,6 @@ function checkErrors(error) {
 function renderHtml(data, action, error) {
   let addOrRemove = "";
   let addOrRemoveSign = "";
-  let currentWatchlist = JSON.parse(localStorage.getItem("watchList"));
   let alreadyOnList = "";
   if (action == "add") {
     addOrRemove = "addToWatchList";
@@ -75,10 +73,15 @@ function renderHtml(data, action, error) {
     addOrRemove = "removeFromWatchList";
     addOrRemoveSign = "&minus;";
   }
-  if (currentWatchlist[data.imdbID]) {
-    addOrRemove = "removeFromWatchList";
-    addOrRemoveSign = "&minus;";
-    alreadyOnList = "toggle-remove";
+  
+  try {
+    if (Object.keys(currentWatchlist[data.imdbID]).length > 0 ) {
+      addOrRemove = "removeFromWatchList";
+      addOrRemoveSign = "&minus;";
+      alreadyOnList = "toggle-remove";
+    }
+  }
+  catch(err) {
   }
   if (data.Poster == "N/A") {
     data.Poster = `https://assets.codepen.io/5515635/generic-movie-poster.jpg`;
@@ -142,7 +145,7 @@ function removeFromWatchList(imdbID) {
   document.getElementById(`${imdbID}-btn`).textContent = "+ Watchlist";
   localStorage.setItem("watchList", JSON.stringify(watchList));
   
-  //The line below is only for the watchlist.html page
+  // The line below is only for the watchlist.html page
   // document.getElementById(`${imdbID}`).remove()
 }
 
@@ -150,7 +153,7 @@ function showWatchList() {
   movieListDiv.innerHTML = "";
   watchList = JSON.parse(localStorage.getItem("watchList"));
   if (!watchList || Object.keys(watchList).length === "null") {
-    // movieListDiv.classList.add("error-msg");
+    movieListDiv.classList.add("error-msg");
     movieListDiv.innerHTML = `
       <h3>Your watchlist is looking a little empty...</h3>
       <a href="index.html">&plus;Let's add some movies!</a>
