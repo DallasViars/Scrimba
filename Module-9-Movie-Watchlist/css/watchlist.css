@@ -177,17 +177,17 @@ div.error-msg {
   height: 50vh;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 550px) {
   header {
     padding: 3em;
     background-image: url("https://assets.codepen.io/5515635/movie-watchlist-andre-tan-md_1.jpg");
     width: 100%;
-    max-width: 700px;
+    max-width: 800px;
     margin: 0 auto;
   }
   div.movie-list {
     align-items: center;
-    max-width: 700px;
+    max-width: 800px;
     margin: 0 auto;
   }
 }
