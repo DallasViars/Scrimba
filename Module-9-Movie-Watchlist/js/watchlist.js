@@ -7,24 +7,41 @@ const movieListDiv = document.getElementById("movie-list");
 if (!localStorage.getItem("watchList")) {
   let myStorage = JSON.parse(localStorage.getItem("watchList"));
 }
+
+
+/* Renders HTML for the list of movies returned by the getMovies function */
 function renderHtml(data, action, error) {
+  
+  /* These control whether the rendered listing gets the formatting for a listing that is already on the watchlist (and needs a function to remove it) or not (and needs a function to add it).  */
   let addOrRemove = "";
   let addOrRemoveSign = "";
-  let currentWatchlist = JSON.parse(localStorage.getItem("watchList"));
   let alreadyOnList = "";
+  
   if (action == "add") {
     addOrRemove = "addToWatchList";
     addOrRemoveSign = "&plus;";
+    /* It seems counter-intuitive, but the toggle-add class designates a listing as needing the button to add the listing to the watchlist. */
     alreadyOnList = "toggle-add";
-  } else if (action == "remove") {
-    addOrRemove = "removeFromWatchList";
-    addOrRemoveSign = "&minus;";
   }
-  if (currentWatchlist[data.imdbID] != undefined) {
-    addOrRemove = "removeFromWatchList";
-    addOrRemoveSign = "&minus;";
-    alreadyOnList = "toggle-remove";
+  if (action == "remove") {
+      addOrRemove = "removeFromWatchList"
+      addOrRemoveSign = "&minus;"
+      alreadyOnList = "toggle-remove";
   }
+  /* This checks to see if a listing is already on the watchlist and changes its formatting to show it is on the watchlist and to give the option to remove it from the watchlist*/
+  try {
+    if (Object.keys(currentWatchlist[data.imdbID]).length > 0 ) {
+      addOrRemove = "removeFromWatchList";
+      addOrRemoveSign = "&minus;";
+      alreadyOnList = "toggle-remove";
+    }
+  }
+  /* The catch statement is to ignore any error messages the try statement may give */
+  catch(err) {
+    /* I don't like how this is empty, but don't know what to put here */
+  }
+  
+  /* Inserts a generic movie poster image in case the API does not have a poster for the listing */
   if (data.Poster == "N/A") {
     data.Poster = `https://assets.codepen.io/5515635/generic-movie-poster.jpg`;
   }
@@ -56,9 +73,7 @@ function removeFromWatchList(imdbID) {
   delete watchList[imdbID];
   document.getElementById(`${imdbID}`).classList.remove("toggle-remove");
   document.getElementById(`${imdbID}`).classList.add("toggle-add");
-  document
-    .getElementById(`${imdbID}-btn`)
-    .setAttribute("onclick", `addToWatchList('${imdbID}')`);
+  document.getElementById(`${imdbID}-btn`).setAttribute("onclick", `addToWatchList('${imdbID}')`);
   document.getElementById(`${imdbID}-btn`).textContent = "+ Watchlist";
   localStorage.setItem("watchList", JSON.stringify(watchList));
   
@@ -66,16 +81,21 @@ function removeFromWatchList(imdbID) {
   document.getElementById(`${imdbID}`).remove()
 }
 
+/* Displays the watchlist */
 function showWatchList() {
   movieListDiv.innerHTML = "";
-  watchList = JSON.parse(localStorage.getItem("watchList"));
+  watchList = JSON.parse(localStorage.getItem("watchList"));  
+  /* Checks to see if the watchlist exists and if not renders a message and links back to index.html */
   if (!watchList || Object.keys(watchList).length === "null") {
-    // movieListDiv.classList.add("error-msg");
+    movieListDiv.classList.add("error-msg");
     movieListDiv.innerHTML = `
-      <h3>Your watchlist is looking a little empty...</h3>
-      <a href="index.html">&plus;Let's add some movies!</a>
+        <div>
+            <h3>Your watchlist is looking a little empty...</h3>
+            <a href="index.html">&plus;Let's add some movies!</a>
+        </div>
     `
   } else {
+      /* Calls the renderHtml function along with data to display the watchlist */
     for (let key of Object.keys(watchList)) {
       renderHtml(watchList[key], "remove");
     }
